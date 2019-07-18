@@ -1,0 +1,139 @@
+---
+title: "Urban Big Data Analytics - Lecture 7 Group Session: Exploratory Data Analysis"
+author: "Andy Hong"
+date: "July 25, 2019"
+output:
+  html_document:
+    css: my_styles.css
+  pdf_document: default
+  word_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+<br>
+
+## Prerequisites
+
+Please locate your `vsp_bigdata` folder under "My Documents" and navigate to `group-session`. Create `07-lecture` folder under the `group-session` folder.
+
+1. For this group session, we will use the Seattle crime database. <br>
+If you don't have the Seattle crime database, please download this CSV file and load it into Exploratory: <a href="http://urbanbigdata.github.io/05-lecture-spatial_data/group-session/seattle_crime_2013.csv" download> Seattle crime data 2013 </a><br>
+
+2. Now, you need to download the US census data to add demographic information: <a href="http://urbanbigdata.github.io/05-lecture-spatial_data/group-session/seattle_census_2013.csv" download> Seattle Census ACS data 2013 </a><br>
+
+
+## Instruction
+
+### 1. Synopsis
+The purpose of this group session is to get you familiar with **Exploratory Data Analysis (EDA)**. There are three steps in this group session. First, we will create a histogram for median household income. We will also create a bar plot using the crime types. <br>
+
+Second, we will create a scatter plot using population and total income variables. We will also create a box plot using the crime type and the total number of crimes. We will also do a log-transformation of the total crime data.<br> 
+
+Third, we will create a correlation coefficient plot using some of the key variables in the dataset.
+
+<br>
+
+### 2. Initial preparation
+
+First, open Exploratory and import the Seattle crime data only for the year 2013. <br>
+
+Now create a new column named `tract` using `mutate` and the the following calculation:
+```{r, eval=F}
+
+as.numeric(gsub("\\..*", "", CensusTract2000))
+
+```
+
+<br>
+This calculation extracts only the tract number from the data. <br>
+**Further information for advanced students**: the `gsub` function uses regular expression to filter and replace characters. In this case the regular expression finds all the characters that go after . and replace them with a blank character. For example, 6200.1043 becomes 6200.<br> You can read more about this function here: http://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html
+
+Now, we will join the crime data with the census data. To do this, let's first group the data by `census tract`. Click `+` and choose `Group_by` and choose `tract`. And click `+` again and choose `Group_by` and choose  `SummarizedOffenseDescription`. `Group_by` is not going to do anything unless we summarize the data. Let's summarise the data and get the total number of crime by census tract. We can do this by clicking `+` and choose `Summarize` and choose `# Number of rows` for the Column, and give the New column name as `total_crime`.
+
+Next, we will join the Seattle census data to add demographic information to the crime data. Add File Data by using the `+` sign and select `seattle_census_2013.csv` file. <br>
+
+Now, go back to the Seattle crime data, and click `+` and select `Join`.<br>
+In the target data frame, choose `seattle_census_2013` and for both the Current Column and Target Column, choose `tract`. We can see that Census data are joined to the Seattle crime data. <br><br><br>
+
+
+### 3. First part - exploring one variable
+
+Now, we are going to use EDA to explore one variable. Go to `Viz` and choose `Histogram` for the type. For X Axis, choose `med_hh_inc`. You will see a distribution of median household income in Seattle. <br>
+
+Now, let's create another `Viz` by clicking `+`. This time, choose `Bar` for the type, and for X Axis, choose `SummarizedOffenseDescription` and for Y Axis, choose `total_crime`. You can usually leave the Y Axis as `Number of Rows`, but in this case we need to use the total crime. Once we are done, we can make the plot pretty by sorting the data by Y Axis and change the orientation from Vertical to Horizontal. 
+
+<br><br>
+
+
+### 4. Second part - Exploring two variables
+
+Now, let's explore two variables. For this to happen, we will need to turn off the crime type. So, go back to the third step on your right panel, and click `x` on the green `SummarizedOffenseDescription` button. We will only group the data by `tract`. <br>
+
+For the scatter plot, go to `Viz` and choose `Scatter` for the type. On X Axis, choose `pop` and for Y Axis, choose `total_crime`. We can see the relationship between population density and total crime. <br>
+
+We can make the plot fancier by adding a trend line. Click the accordian-style menu next the Y Axis, and click `Trend Line` and choose `Linear Regression` for the type. It shows a beautiful scatter plot with a trend line showing the relationship between population and crime.<br>
+
+Note that the distribution of crime data is skewed to the right, meaning there are values close to 0s. We can transform the crime data to overcome this non-normality issue. <br>
+
+To do that, click `+` and choose `Mutate`. On the new Column name, type in `total_crime_log` and in the calculation field, type in `log(total_crime)`. Hit Run and we see that a new variable called `total_crime_log` was created. <br>
+
+For the scatter plot, let's use `total_crime_log` for the Y Axis and see how the plot changes. <br>
+
+Now, we will create anothe `Viz` by clicking `+`. For this to work, we will need to include crime type again for the grouping variable. Go back to the third step on the right panel, and click `+` next to the green button and choose  `SummarizedOffenseDescription`. <br>
+
+Now, select the last step on your right panel, and choose `BoxPlot` for the type. For the X Axis, choose `SummarizedOffenseDescription` and choose `total_crime` for the Y Axis. We can see that the boxplot is created. One problem is that there are too many crime types. <br><br>
+
+Let's limit the crime types to top five crimes. We can do this by clicking `+` and choose `Filter` and select `SummarizedOffenseDescription` for the column and `is in` for the opreator. On the Values, pick `CAR PROWL`, `PROPERTY DAMAGE`, `VEHICLE THEFT`, and `BURGLARY`. Go back to `Viz` and examine the boxplot with only the top five crime types.  
+
+<br>
+
+
+### 5. Third part - Exploring multiple variables (only numeric)
+
+Now that we explored the two variables, we can move onto exploring multiple variables. For this, choose `Analytics`, and select `Correlation by Columns`. For the colums, select the following columns:<br>
+
+<ul>
+<li>total_crime</li>
+<li>pop</li>
+<li>pop_den</li>
+<li>p_kids</li>
+<li>p_seniors</li>
+<li>p_female</li>
+<li>p_white</li>
+<li>some_college</li>
+<li>med_hh_inc</li>
+<li>p_poverty</li>
+</ul>
+
+When you are done selecting the variables, click Run. We can see a correlation plot.
+
+
+<br><br>
+
+
+## Use the EDA techniques to explore your city's data
+
+1. Create a bar plot of crime types and total crime. Sort the plot by y axis. <br>
+
+2. Create a scatter plot of pop and total_crime. <br>
+
+3. Create a correlation plot of at least 5 key variables of your choice <br>
+
+4. Create a short report that includes the above three plots and send the document to the course email (urbanbigdata2019@gmail.com). 
+ + <font color="red"><b>[IMPORTANT]</b></font> Please use the following email title format: <br>
+ `VSP BigData [lecture number] - [group number] - [presenter name]` <br>
+ ex), `VSP BigData Lecture 7 - Group 1 - Bill Gates` <br>
+ 
+<br><br><br>
+ 
+
+ 
+
+
+
+
