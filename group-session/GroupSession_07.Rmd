@@ -63,18 +63,18 @@ In the target data frame, choose `seattle_census_2013` and for both the Current 
 
 ### 3. First part - exploring one variable
 
-Now, we are going to use EDA to explore one variable. Go to `Viz` and choose `Histogram` for the type. For X Axis, choose `med_hh_inc`. You will see a distribution of median household income in Seattle. <br>
+Now, we are going to use EDA to explore one variable. Go to `Chart` and choose `Histogram` for the type. For X Axis, choose `med_hh_inc`. You will see a distribution of median household income in Seattle. <br>
 
-Now, let's create another `Viz` by clicking `+`. This time, choose `Bar` for the type, and for X Axis, choose `SummarizedOffenseDescription` and for Y Axis, choose `total_crime`. You can usually leave the Y Axis as `Number of Rows`, but in this case we need to use the total crime. Once we are done, we can make the plot pretty by sorting the data by Y Axis and change the orientation from Vertical to Horizontal. 
+Now, let's create another `Chart` by clicking `+`. This time, choose `Bar` for the type, and for X Axis, choose `SummarizedOffenseDescription` and for Y Axis, choose `total_crime`. You can usually leave the Y Axis as `Number of Rows`, but in this case we need to use the total crime. Once we are done, we can make the plot pretty by sorting the data by Y Axis and change the orientation from Vertical to Horizontal. 
 
 <br><br>
 
 
 ### 4. Second part - Exploring two variables
 
-Now, let's explore two variables. For this to happen, we will need to turn off the crime type. So, go back to the third step on your right panel, and click `x` on the green `SummarizedOffenseDescription` button. We will only group the data by `tract`. <br>
+Now, let's explore two variables. For this to happen, we will need to turn off the crime type. So, go back to the fourth step on your right panel, and remove `SummarizedOffenseDescription` and click OK. We will only group the data by `tract`. <br>
 
-For the scatter plot, go to `Viz` and choose `Scatter` for the type. On X Axis, choose `pop` and for Y Axis, choose `total_crime`. We can see the relationship between population density and total crime. <br>
+For the scatter plot, go to `Chart` and choose `Scatter` for the type. On X Axis, choose `pop` and for Y Axis, choose `total_crime`. We can see the relationship between population density and total crime. <br>
 
 We can make the plot fancier by adding a trend line. Click the accordian-style menu next the Y Axis, and click `Trend Line` and choose `Linear Regression` for the type. It shows a beautiful scatter plot with a trend line showing the relationship between population and crime.<br>
 
@@ -84,11 +84,11 @@ To do that, click `+` and choose `Mutate`. On the new Column name, type in `tota
 
 For the scatter plot, let's use `total_crime_log` for the Y Axis and see how the plot changes. <br>
 
-Now, we will create anothe `Viz` by clicking `+`. For this to work, we will need to include crime type again for the grouping variable. Go back to the third step on the right panel, and click `+` next to the green button and choose  `SummarizedOffenseDescription`. <br>
+Now, we will create anothe `Chart` by clicking `+`. For this to work, we will need to include crime type again for the grouping variable. Go back to the fourth step on the right panel, and click `Add New` below `tract` and choose  `SummarizedOffenseDescription`. <br>
 
-Now, select the last step on your right panel, and choose `BoxPlot` for the type. For the X Axis, choose `SummarizedOffenseDescription` and choose `total_crime` for the Y Axis. We can see that the boxplot is created. One problem is that there are too many crime types. <br><br>
+Select the `Summarize` step on your right panel, and choose `BoxPlot` for the type. For the X Axis, choose `SummarizedOffenseDescription` and choose `total_crime` for the Y Axis. We can see that the boxplot is created. One problem is that there are too many crime types. <br><br>
 
-Let's limit the crime types to top five crimes. We can do this by clicking `+` and choose `Filter` and select `SummarizedOffenseDescription` for the column and `is in` for the opreator. On the Values, pick `CAR PROWL`, `PROPERTY DAMAGE`, `VEHICLE THEFT`, and `BURGLARY`. Go back to `Viz` and examine the boxplot with only the top five crime types.  
+Let's limit the crime types to top five crimes. We can do this by clicking `+` and choose `Filter` and select `SummarizedOffenseDescription` for the column and `is in` for the opreator. On the Values, pick `CAR PROWL`, `BURGLARY`, `PROPERTY DAMAGE`, `WARRANT ARREST`, and `STOLEN PROPERTY`. Go back to `Chart` and examine the boxplot with only the top five crime types.  
 
 <br>
 
